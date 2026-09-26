@@ -10,11 +10,11 @@ Follow a simple speaking routine: watch YouTube, note keywords, retell three tim
 
 ## Full description
 
-Want to practise English speaking but unsure what to do each day? You understood the video, but can you explain it in English? Video Speaking Coach turns watching, noting, retelling, feedback, and review into a routine you can follow in your browser.
+Want to practise English speaking but unsure what to do each day? You understood the video, but can you explain it in English? Video Speaking Coach turns input, keyword recall, active retelling, feedback, and another attempt into a routine you can follow in your browser.
 
 Watch the video, write a few keywords, then retell it three times:
 
-1. **Say it** — describe what you remember in your own words.
+1. **Say it** — look only at the keywords you wrote, then connect them aloud in your own English.
 2. **Make it clear** — organize the topic, main points, and an example.
 3. **Make it natural** — retell it independently and add your view.
 

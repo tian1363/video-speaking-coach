@@ -3,7 +3,7 @@ import { createSession, fallbackPrompt, nextSession, parseYouTubeVideo, sessionM
 
 const $ = (id) => document.getElementById(id);
 const labels = [
-  { title: "先说出来", guide: "不看范文，自由讲讲你记得什么。先完成表达，不用追求完美。" },
+  { title: "先说出来", guide: "只看你记下的关键词，用语音把它们串成一段英文。先讲出自己的理解，不用追求完美。" },
   { title: "说清楚", guide: "按「主题 → 两个重点 → 例子」重讲一次，补上上一轮遗漏的内容。" },
   { title: "说自然", guide: "不看前两轮，独立讲清视频内容，再加入你自己的看法。" }
 ];

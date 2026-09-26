@@ -6,6 +6,7 @@
 
 - [中文商店介绍](STORE_LISTING_ZH.md)、[英文商店介绍](STORE_LISTING_EN.md)
 - [一分钟上手](QUICK_START.md)、[完整使用教程](../USER_GUIDE.md)
+- [练习方法：先输入，再自己说出来](../METHODOLOGY.md)
 - [产品简介](PRODUCT_ONE_PAGER.md)、[社交平台文案与演示脚本](PROMOTION_COPY.md)
 - [费用与竞品对比笔记](PRICING_COMPARISON.md)
 - [素材清单与真实记录截图状态](ASSET_PLAN.md)、[发布前检查](PUBLISH_CHECKLIST.md)
