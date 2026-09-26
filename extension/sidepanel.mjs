@@ -15,11 +15,23 @@ let listening = false;
 let speechBase = "";
 let busy = false;
 let saveTimer;
+let statusTimer;
 let aiConfigured = false;
 let savedProvider = "openai";
 let savedRegion = "cn";
 
-function setStatus(message) { $("action-status").textContent = message; }
+function setStatus(message) {
+  clearInterval(statusTimer);
+  statusTimer = undefined;
+  $("action-status").textContent = message;
+}
+function startAiWait() {
+  setStatus("正在生成 AI 建议……已等待 0 秒");
+  const startedAt = Date.now();
+  statusTimer = setInterval(() => {
+    $("action-status").textContent = `正在生成 AI 建议……已等待 ${Math.floor((Date.now() - startedAt) / 1000)} 秒`;
+  }, 1000);
+}
 function setSpeechStatus(message) { $("speech-status").textContent = message; }
 function updateAiState() {
   const changed = $("api-provider").value !== savedProvider || $("api-region").value !== savedRegion;
@@ -291,7 +303,7 @@ async function submitRound() {
   if (!transcript) { setStatus("请先说或写下这一轮的英文复述。"); return; }
   busy = true;
   $("submit").disabled = true;
-  setStatus("正在整理这一轮……");
+  startAiWait();
   const round = session.round;
   const transcripts = [...session.transcripts];
   transcripts[round] = transcript;
@@ -310,7 +322,7 @@ async function refreshAdvice() {
   if (busy || round < 0) return;
   busy = true;
   $("refresh-advice").disabled = true;
-  setStatus("正在生成 AI 建议……");
+  startAiWait();
   const response = await coach({ mode: "round", round, videoTitle: session.video.title, keywords: session.keywords, transcripts: session.transcripts });
   if (response.online) {
     session.feedback[round] = response.text;
