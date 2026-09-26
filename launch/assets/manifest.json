@@ -1,48 +1,48 @@
 {
   "provenance": "Generated from the local extension UI with fictional practice data in a temporary Chromium profile; no user history or API Key was used.",
-  "generatedAt": "2026-09-26T06:19:12.416Z",
+  "generatedAt": "2026-09-26T06:34:08.801Z",
   "assets": [
     {
       "file": "store-icon-128.png",
       "width": 128,
       "height": 128,
-      "sha256": "744a4d959119ba750d841d66bac96b97646939c043dd68c3753966902631b3de"
+      "sha256": "19af2d7ebc7c216f723667377fc85dc76e8dc68e71c2c86236fbc267173a89f2"
     },
     {
       "file": "screenshot-01-overview.png",
       "width": 1280,
       "height": 800,
-      "sha256": "d7c54eb34ac97efca9a66e42fc4f49b250e25d433ec958a5834f5b185f2cbc51"
+      "sha256": "ca85613db5241de6ea43c315340301deb01d0572ad6253cfedb8aff9c587a90b"
     },
     {
       "file": "screenshot-02-rounds.png",
       "width": 1280,
       "height": 800,
-      "sha256": "0df9d9808c368e022de1120d4cd15d79c7cb64becd43a44976982c34207c4882"
+      "sha256": "a66b33a145d15217eb73f7239afbc10c34e752bbe46dae73b876b94bb9d3eb21"
     },
     {
       "file": "screenshot-03-history-demo.png",
       "width": 1280,
       "height": 800,
-      "sha256": "7e8678931ed63ea92efbb4f67913fd9a371efd35fd8f4cb4d63df5e1df042060"
+      "sha256": "e622013763bc97d7834f74411787cbe086af259fce9b36f230cfdf7db527d5e1"
     },
     {
       "file": "screenshot-04-settings.png",
       "width": 1280,
       "height": 800,
-      "sha256": "1a04976001ea9ec1e7ace17483440a56f2477bd369a6e0c622fc60ec7d296111"
+      "sha256": "cb1856ea843a2fa57083b451f1f78a15fe9d3ae7eac1794ddde92f1764fffb82"
     },
     {
       "file": "promo-small-440x280.png",
       "width": 440,
       "height": 280,
-      "sha256": "02daeacff41345054fc31f6ac14e74427318b538bedb38558133d1826aa199fe"
+      "sha256": "0baa014fbaebc0ba8d2a701ad9a72b7efe2f6b60a66ff41badc9861cdc843ec8"
     },
     {
       "file": "promo-marquee-1400x560.png",
       "width": 1400,
       "height": 560,
-      "sha256": "fef56de3d0d1eadaae00e176197aea0e07b9540254664ca6065087d409dff846"
+      "sha256": "fe1663cfecb45ef6873b59014a5fff2c52fb20eda3a8d3cec0db95fd2f5262d0"
     }
   ]
 }
