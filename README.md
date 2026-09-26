@@ -38,5 +38,3 @@
 ## 开源与反馈
 
 如果这个练习方法帮你开始开口，欢迎点击仓库右上角 **Star**，也欢迎通过 [Issues](https://github.com/tian1363/video-speaking-coach/issues) 反馈体验。请勿公开提交 API Key 或未脱敏的练习内容。贡献方式见 [CONTRIBUTING.md](CONTRIBUTING.md)，教学流程另有可复用的 [Codex Skill](skills/youtube-speaking-coach/SKILL.md)。项目采用 [MIT License](LICENSE)。
-
-想了解项目被多少人关注，以及上架后如何看安装数据，请看[使用指标说明](METRICS.md)。开发验证可运行 `npm test`。
