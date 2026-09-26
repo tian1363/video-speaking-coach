@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>授权麦克风 · Video Speaking Coach</title>
+    <link rel="stylesheet" href="sidepanel.css">
+  </head>
+  <body>
+    <main class="card permission-page">
+      <div class="eyebrow">VIDEO SPEAKING COACH</div>
+      <h1>允许语音输入</h1>
+      <p>为了把你的英文复述转成文字，请点击下面的按钮，然后在 Chrome 弹出的权限框中选择“允许”。授权完成后回到 YouTube 视频页，再点击侧边栏里的“开始语音输入”。</p>
+      <button id="grant" class="button primary" type="button">允许使用麦克风</button>
+      <p id="permission-status" class="status" aria-live="polite"></p>
+      <p class="minor">插件不会保存原始音频。Chrome 的语音识别服务可能需要联网；也可以不用语音，直接在侧边栏输入英文。</p>
+    </main>
+    <script type="module" src="microphone.mjs"></script>
+  </body>
+</html>

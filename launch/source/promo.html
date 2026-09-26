@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Video Speaking Coach · Launch Assets</title>
+  <style>
+    *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%}body{font-family:Inter,-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;color:#18342a;background:#e8efe8}.asset{width:100vw;height:100vh;overflow:hidden;position:relative;background:radial-gradient(circle at 20% 5%,#e5f3de 0,transparent 48%),linear-gradient(140deg,#e9f0e5,#f6f7f0 68%)}.brand{display:flex;align-items:center;gap:16px;font-weight:800;letter-spacing:.02em;color:#17684e}.brand img{width:52px;height:52px}.eyebrow{font-weight:800;color:#27816a;letter-spacing:.22em;font-size:15px}.headline{font-size:68px;line-height:1.08;letter-spacing:-.06em;margin:24px 0;color:#17382e}.sub{font-size:25px;line-height:1.5;color:#566b5e;max-width:560px}.flow{display:flex;align-items:center;gap:12px;margin-top:38px}.flow span{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:12px 18px;background:#d8eddf;color:#17684e;font-size:18px;font-weight:700}.flow b{font-size:20px;color:#83aa93}.left{position:absolute;left:82px;top:95px;width:590px;z-index:2}.panel{position:absolute;right:80px;top:55px;width:500px;height:690px;object-fit:cover;object-position:top;border-radius:22px;border:1px solid #dce7db;box-shadow:0 24px 70px #17302528;background:white}.pill{display:inline-block;margin-top:42px;border:1px solid #bdd8c5;border-radius:999px;padding:10px 16px;color:#46725b;font-size:16px}.watermark{position:absolute;right:78px;bottom:22px;font-size:13px;color:#60806b}
+    .asset.small{background:linear-gradient(135deg,#145c47,#1f8465);color:white}.small .brand{position:absolute;left:28px;top:24px;color:white;font-size:19px;gap:11px}.small .brand img{width:40px;height:40px}.small .title{position:absolute;left:28px;top:104px;font-size:34px;line-height:1.15;font-weight:800;letter-spacing:-.04em}.small .subtitle{position:absolute;left:28px;top:197px;font-size:15px;color:#d6f1df}.small .orb{position:absolute;width:210px;height:210px;border:1px solid #ffffff33;border-radius:50%;right:-48px;top:25px;box-shadow:0 0 0 30px #ffffff10,0 0 0 70px #ffffff08}.small .dots{position:absolute;right:27px;bottom:29px;display:flex;gap:7px}.small .dots i{display:block;width:12px;height:12px;background:#cbf6d6;border-radius:50%}
+    .asset.marquee{background:linear-gradient(125deg,#155d49,#2c8b68);color:white}.marquee .brand{position:absolute;left:72px;top:58px;color:white;font-size:24px}.marquee .brand img{width:56px;height:56px}.marquee .headline{position:absolute;left:72px;top:170px;color:white;font-size:70px;margin:0}.marquee .sub{position:absolute;left:72px;top:296px;color:#d9f3e3;font-size:27px;max-width:700px}.marquee .panel{width:390px;height:525px;right:115px;top:58px;transform:rotate(3deg);border:5px solid white}.marquee .flow{position:absolute;left:72px;bottom:50px;margin:0}.marquee .flow span{background:#ffffff20;color:white;font-size:17px}.marquee .flow b{color:#b2ddc0}
+    .asset.store-icon{background:transparent;display:flex;align-items:center;justify-content:center}.store-icon img{width:96px;height:96px}
+  </style>
+</head>
+<body>
+  <main id="asset" class="asset">
+    <div class="left"><div class="brand"><img src="../../assets/icon.svg" alt=""><span>Video Speaking Coach</span></div><div class="eyebrow" id="eyebrow">YOUTUBE × SPEAKING</div><h1 class="headline" id="headline">看完视频，<br>用英语讲出来。</h1><p class="sub" id="subtitle">把你感兴趣的视频，变成三轮有节奏的口语练习。</p><div class="flow"><span>先说出来</span><b>→</b><span>说清楚</span><b>→</b><span>说自然</span></div><div class="pill" id="pill">真实插件界面 · 演示数据</div></div>
+    <img class="panel" id="panel" alt="插件侧边栏演示截图">
+    <div class="watermark">Video Speaking Coach</div>
+  </main>
+  <script>
+    const mode = new URLSearchParams(location.search).get('asset') || 'overview';
+    const asset = document.getElementById('asset');
+    const copy = {
+      overview:['YOUTUBE × SPEAKING','看完视频，<br>用英语讲出来。','把你感兴趣的视频，变成三轮有节奏的口语练习。','demo-panel-overview.png'],
+      rounds:['THREE ROUNDS','三次复述，<br>越讲越清楚。','先自由表达，再整理逻辑，最后独立说出自己的观点。','demo-panel-rounds.png'],
+      history:['YOUR PROGRESS','每次开口，<br>都有迹可循。','保存三轮原话和建议，完成后导出 Markdown。','demo-panel-history.png'],
+      settings:['YOUR CHOICE','基础查词可用，<br>AI 教练自选。','支持 OpenAI 和阿里云百炼；个性化建议使用自己的 API Key。','demo-panel-settings.png']
+    };
+    if (copy[mode]) {
+      const [eyebrow,headline,subtitle,image] = copy[mode];
+      document.getElementById('eyebrow').textContent=eyebrow;
+      document.getElementById('headline').innerHTML=headline;
+      document.getElementById('subtitle').textContent=subtitle;
+      document.getElementById('panel').src='../assets/'+image;
+    } else if (mode==='small') {
+      asset.classList.add('small');asset.innerHTML='<div class="brand"><img src="../../assets/icon.svg"><span>Video Speaking Coach</span></div><div class="title">看完之后，<br>讲出来。</div><div class="subtitle">YouTube 视频 × 三轮英语复述</div><div class="orb"></div><div class="dots"><i></i><i></i><i></i></div>';
+    } else if (mode==='marquee') {
+      asset.classList.add('marquee');asset.innerHTML='<div class="brand"><img src="../../assets/icon.svg"><span>Video Speaking Coach</span></div><h1 class="headline">看完视频，讲出来。</h1><p class="sub">三轮英语复述，把理解变成自己的表达。</p><div class="flow"><span>先说出来</span><b>→</b><span>说清楚</span><b>→</b><span>说自然</span></div><img class="panel" src="../assets/demo-panel-overview.png">';
+    } else if (mode==='icon') {
+      asset.classList.add('store-icon');asset.innerHTML='<img src="../../assets/icon.svg">';
+    }
+  </script>
+</body>
+</html>

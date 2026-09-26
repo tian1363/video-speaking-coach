@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Video Speaking Coach</title>
+    <link rel="stylesheet" href="sidepanel.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="header">
+        <div class="eyebrow">VIDEO SPEAKING COACH</div>
+        <h1>看完之后，讲出来。</h1>
+        <p>三次复述，把视频内容讲清楚。</p>
+      </header>
+
+      <section id="empty" class="card" hidden>
+        <h2>打开一段 YouTube 视频</h2>
+        <p>打开 YouTube 视频后，这里会自动出现练习。支持普通视频、Shorts 和直播回放链接。</p>
+      </section>
+
+      <details id="ai-settings" class="card settings-card">
+        <summary>AI 教练设置 <span id="ai-config-state">未设置</span></summary>
+        <p class="minor">想用 AI 教练？选择服务商并填写自己的 API Key，就能获得语境查词、口语建议和问答。使用量由相应账号承担，密钥只保存在当前 Chrome 会话中。</p>
+        <div class="key-guide">
+          <strong>第一次听说 API Key？</strong>
+          <p>它是 AI 服务商给你的个人调用凭证，类似一把专用钥匙。先在服务商官网创建，复制后粘贴到下方；不要把密钥发给别人。暂时不设置，也能完成三轮练习和使用基础查词。</p>
+        </div>
+        <label class="label" for="api-provider">服务商</label>
+        <select id="api-provider">
+          <option value="openai">OpenAI</option>
+          <option value="bailian">阿里云百炼（普通 API Key）</option>
+          <option value="bailian-coding">阿里云百炼 Coding Plan</option>
+        </select>
+        <a id="get-api-key" class="button secondary key-link" href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer">前往 OpenAI 官网获取 API Key ↗</a>
+        <p id="key-link-help" class="minor">将在新标签页打开；创建后返回这里粘贴。</p>
+        <div id="api-region-row" hidden>
+          <label class="label settings-label" for="api-region">API Key 所属地域</label>
+          <select id="api-region">
+            <option value="cn">中国内地（北京）</option>
+            <option value="intl">新加坡／国际</option>
+            <option value="us">美国（弗吉尼亚）</option>
+            <option value="hk">中国香港</option>
+          </select>
+        </div>
+        <p id="api-provider-help" class="minor"></p>
+        <label class="label" for="api-key">API Key</label>
+        <input id="api-key" type="password" autocomplete="off" spellcheck="false" placeholder="粘贴你的 API Key">
+        <label class="label settings-label" for="api-model">模型名称</label>
+        <input id="api-model" type="text" spellcheck="false" value="gpt-4.1-mini">
+        <div class="actions wrap-actions">
+          <button id="save-ai-settings" class="button primary" type="button">保存设置</button>
+          <button id="clear-ai-settings" class="button secondary" type="button">清除密钥</button>
+        </div>
+        <p id="ai-settings-status" class="minor" aria-live="polite"></p>
+      </details>
+
+      <div id="workspace" hidden>
+        <section id="away-notice" class="card away-notice" hidden>
+          <p>你现在不在 YouTube 视频页。下方仍保留上次练习，可以继续填写；需要看视频时点击返回。</p>
+          <a id="return-video" class="button secondary" target="_blank" rel="noopener noreferrer">返回视频</a>
+        </section>
+        <section class="card video-card">
+          <div class="label">当前视频</div>
+          <a id="video-link" target="_blank" rel="noopener noreferrer"></a>
+          <p class="minor">视频留在 YouTube。这里记录你的理解和表达。</p>
+        </section>
+
+        <section class="card">
+          <label class="label" for="keywords">看完记下的关键词</label>
+          <textarea id="keywords" rows="3" placeholder="人物、事件、观点、不懂的词……"></textarea>
+          <div class="hint">先记自己的印象，不用写完整句子。</div>
+        </section>
+
+        <section class="card practice-card">
+          <div class="round-top">
+            <span id="round-badge" class="badge"></span>
+            <span id="progress" class="progress"></span>
+          </div>
+          <h2 id="round-title"></h2>
+          <p id="round-guide"></p>
+          <label class="label" for="transcript">我的英文原话 · 可修改转写</label>
+          <textarea id="transcript" rows="7" placeholder="点击录音，或直接在这里输入英文复述。"></textarea>
+          <div class="actions">
+            <button id="record" class="button secondary" type="button">开始语音输入</button>
+            <button id="submit" class="button primary" type="button">完成这一轮</button>
+          </div>
+          <p id="speech-status" class="minor" aria-live="polite"></p>
+          <div id="mic-consent" class="mic-consent" hidden>
+            <p>语音输入需要麦克风权限。只有你选择授权后，Chrome 才会询问是否允许；也可以直接输入英文。</p>
+            <button id="open-mic-permission" class="button secondary" type="button">前往麦克风授权页</button>
+          </div>
+          <p id="action-status" class="status" aria-live="polite"></p>
+        </section>
+
+        <section id="advice-card" class="card" hidden>
+          <h2>本轮建议</h2>
+          <p id="latest-advice" class="answer"></p>
+          <button id="refresh-advice" class="button secondary" type="button">获取 AI 建议</button>
+        </section>
+
+        <section class="card">
+          <h2>随时查词</h2>
+          <p class="minor">无需密钥可查基础翻译；设置 API Key 后可获得结合视频语境的解释。</p>
+          <div class="lookup-row">
+            <input id="word" type="text" placeholder="输入卡住的中文或英文" aria-label="要查的词">
+            <button id="lookup" class="button secondary" type="button">解释</button>
+          </div>
+          <p id="word-result" class="answer" aria-live="polite"></p>
+          <div id="word-list" class="word-list"></div>
+        </section>
+
+        <section class="card">
+          <h2>问教练</h2>
+          <p class="minor">可以问视频理解、语法或怎么表达；回答后继续当前轮。</p>
+          <div class="lookup-row">
+            <input id="question" type="text" placeholder="例如：这个观点怎么用英语说？" aria-label="问教练">
+            <button id="ask" class="button secondary" type="button">提问</button>
+          </div>
+          <p id="question-result" class="answer" aria-live="polite"></p>
+        </section>
+
+        <section class="card history-card">
+          <h2>练习记录</h2>
+          <div id="history"></div>
+          <div id="completed-actions" hidden>
+            <p class="minor">三轮已完成。可以把这次记录保存为 Markdown，导入 Notion 或 Obsidian。</p>
+            <div class="actions wrap-actions">
+              <button id="download-markdown" class="button secondary" type="button">下载 Markdown</button>
+              <button id="copy-markdown" class="button secondary" type="button">复制内容</button>
+              <button id="send-obsidian" class="button secondary" type="button">写入 Obsidian</button>
+            </div>
+          </div>
+          <button id="restart" class="button secondary restart-button" type="button" hidden>重新练习（保留旧记录）</button>
+          <div id="past-attempts" hidden>
+            <h2>过往练习</h2>
+            <div id="attempt-list"></div>
+          </div>
+          <button id="delete" class="text-button" type="button">删除这段视频的练习记录</button>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="sidepanel.mjs"></script>
+  </body>
+</html>

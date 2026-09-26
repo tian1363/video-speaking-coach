@@ -1,0 +1,48 @@
+{
+  "provenance": "Generated from the local extension UI with fictional practice data in a temporary Chromium profile; no user history or API Key was used.",
+  "generatedAt": "2026-09-26T05:34:29.211Z",
+  "assets": [
+    {
+      "file": "store-icon-128.png",
+      "width": 128,
+      "height": 128,
+      "sha256": "744a4d959119ba750d841d66bac96b97646939c043dd68c3753966902631b3de"
+    },
+    {
+      "file": "screenshot-01-overview.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "d9be07fe78391c28b0019eddeff1660e7955b4108638b71f1decbc205e4085c9"
+    },
+    {
+      "file": "screenshot-02-rounds.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "0509d5ea3cfbde6aaaea851ac36fec2d903040bdd763437a0ab765a6a7c6f0c9"
+    },
+    {
+      "file": "screenshot-03-history-demo.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "43cef39e498c7e5f210c1257fb1f5ef41471c8827362d684ac7d686a124c32c0"
+    },
+    {
+      "file": "screenshot-04-settings.png",
+      "width": 1280,
+      "height": 800,
+      "sha256": "1a04976001ea9ec1e7ace17483440a56f2477bd369a6e0c622fc60ec7d296111"
+    },
+    {
+      "file": "promo-small-440x280.png",
+      "width": 440,
+      "height": 280,
+      "sha256": "02daeacff41345054fc31f6ac14e74427318b538bedb38558133d1826aa199fe"
+    },
+    {
+      "file": "promo-marquee-1400x560.png",
+      "width": 1400,
+      "height": 560,
+      "sha256": "0297ea2473f46bf377139af1cdb852fdfd37c08ed921cbb3d1560ef2c2ba7ea1"
+    }
+  ]
+}
