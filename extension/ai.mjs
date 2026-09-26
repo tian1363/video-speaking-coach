@@ -23,15 +23,13 @@ export function requestConfig({ provider = "openai", region = "cn", model, apiKe
       parse: extractText
     };
   }
-  if (provider === "bailian" || provider === "bailian-coding") {
-    if ((provider === "bailian") === apiKey.startsWith("sk-sp-")) throw new CoachError("wrong-key-type");
-    const url = provider === "bailian"
-      ? BAILIAN_ENDPOINTS[region]
-      : region === "intl" ? "https://coding-intl.dashscope.aliyuncs.com/v1/chat/completions" : "https://coding.dashscope.aliyuncs.com/v1/chat/completions";
+  if (provider === "bailian") {
+    if (apiKey.startsWith("sk-sp-")) throw new CoachError("wrong-key-type");
+    const url = BAILIAN_ENDPOINTS[region];
     if (!url) throw new CoachError("region");
     return {
       url,
-      body: { model: model || (provider === "bailian-coding" ? "qwen3.5-plus" : "qwen-plus"), messages: [{ role: "system", content: INSTRUCTIONS }, { role: "user", content: prompt }] },
+      body: { model: model || "qwen-plus", messages: [{ role: "system", content: INSTRUCTIONS }, { role: "user", content: prompt }] },
       parse: (result) => {
         const content = result.choices?.[0]?.message?.content;
         return typeof content === "string" ? content.trim() : Array.isArray(content) ? content.filter((part) => part.type === "text").map((part) => part.text).join("\n").trim() : "";

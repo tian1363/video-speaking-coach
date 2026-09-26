@@ -41,7 +41,7 @@ test("百炼工作空间密钥只路由到所选百炼地域", () => {
   assert.equal(config.body.messages[1].role, "user");
   assert.equal(config.parse({ choices: [{ message: { content: "屏幕" } }] }), "屏幕");
   assert.throws(() => requestConfig({ provider: "openai", apiKey: "sk-sp-test", payload: { mode: "lookup", term: "screen" } }), { code: "wrong-provider" });
-  assert.throws(() => requestConfig({ provider: "bailian-coding", apiKey: "sk-ws-test", payload: { mode: "lookup", term: "screen" } }), { code: "wrong-key-type" });
+  assert.throws(() => requestConfig({ provider: "bailian", apiKey: "sk-sp-test", payload: { mode: "lookup", term: "screen" } }), { code: "wrong-key-type" });
 });
 
 test("免密钥基础查词只发送查询词", async () => {

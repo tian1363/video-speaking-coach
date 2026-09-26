@@ -10,7 +10,7 @@
 - [产品简介](PRODUCT_ONE_PAGER.md)、[社交平台文案与演示脚本](PROMOTION_COPY.md)
 - [费用与竞品对比笔记](PRICING_COMPARISON.md)
 - [素材清单与真实记录截图状态](ASSET_PLAN.md)、[发布前检查](PUBLISH_CHECKLIST.md)
-- [公开隐私政策草稿](PRIVACY_POLICY_DRAFT.md)
+- [公开隐私政策](../PRIVACY_POLICY.md)、[商店后台填写资料](STORE_SUBMISSION.md)
 
 ## 图片
 

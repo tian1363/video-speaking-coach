@@ -23,9 +23,9 @@ const transcripts = [
   "The main idea is to make learning easy to repeat. A small daily action can become a habit. I would try a short English retelling after each video because it helps me remember and speak more clearly."
 ];
 const feedback = [
-  "你已经说出了主题。下一轮试着补上一个具体做法和例子。",
-  "结构更清楚了。第三轮可以少看笔记，用自己的话连接各个重点。",
-  "第三轮加入了你的看法，表达更连贯。下次试着用一句话先概括视频的核心观点。"
+  "【现有问题】\n你提到了学习习惯和小步骤，但还没有说明怎样开始。\n\n【为什么影响表达】\n听者知道主题，却缺少可执行的做法。\n\n【完整重讲示例】\nFrom what I remember, the video is about building a learning habit. Small steps seem important because they make it easier to begin. I would start with a small goal and try to repeat it every day.\n\n【下一轮怎么练】\n补上一个具体做法，再用自己的话重讲。",
+  "【现有问题】\n你讲清了每天练十分钟的例子，但结尾还没有自己的看法。\n\n【为什么影响表达】\n补上一句个人选择，整段话会更完整。\n\n【完整重讲示例】\nThe speaker suggests starting with a small learning goal. First, I could choose a regular time and repeat the action every day. For example, I could practise English for ten minutes after breakfast. I think this would be easier for me to maintain than a large goal.\n\n【下一轮怎么练】\n离开笔记再讲一次，并用一句话说出你是否认同。",
+  "【现有问题】\n你已经加入了个人做法；开头还可以更快点明核心观点。\n\n【为什么影响表达】\n先说结论，听者就更容易跟上后面的例子。\n\n【完整重讲示例】\nThe main idea is to make learning easy to repeat. A small daily action can gradually become a habit. After watching a video, I would give a short retelling in English because it helps me remember the content. It would also give me a simple way to practise speaking more clearly.\n\n【下一轮怎么练】\n下次先用一句话概括主旨，再展开两个重点。"
 ];
 
 let browser;
@@ -51,7 +51,7 @@ try {
       video, keywords: "daily learning\nsmall steps\nEnglish speaking practice",
       round, transcripts: transcripts.map((item, index) => index < round ? item : ""),
       feedback: feedback.map((item, index) => index < round ? item : ""),
-      feedbackSource: ["fallback", "fallback", "fallback"],
+      feedbackSource: ["ai", "ai", "ai"],
       words: [{ term: "habit", explanation: "习惯；something you do regularly" }],
       complete: round === 3, updatedAt: Date.now()
     };

@@ -5,8 +5,8 @@
   "description": "看完 YouTube 视频后，用三轮英语复述练习把内容讲清楚。",
   "minimum_chrome_version": "116",
   "icons": { "16": "icon-16.png", "48": "icon-48.png", "128": "icon-128.png" },
-  "permissions": ["activeTab", "sidePanel", "storage"],
-  "host_permissions": ["https://api.openai.com/*", "https://api.mymemory.translated.net/*", "https://dashscope.aliyuncs.com/*", "https://dashscope-intl.aliyuncs.com/*", "https://dashscope-us.aliyuncs.com/*", "https://cn-hongkong.dashscope.aliyuncs.com/*", "https://coding.dashscope.aliyuncs.com/*", "https://coding-intl.dashscope.aliyuncs.com/*", "https://www.youtube.com/*", "https://youtube.com/*", "https://m.youtube.com/*", "https://youtu.be/*"],
+  "permissions": ["sidePanel", "storage"],
+  "host_permissions": ["https://api.openai.com/*", "https://api.mymemory.translated.net/*", "https://dashscope.aliyuncs.com/*", "https://dashscope-intl.aliyuncs.com/*", "https://dashscope-us.aliyuncs.com/*", "https://cn-hongkong.dashscope.aliyuncs.com/*", "https://www.youtube.com/*", "https://youtube.com/*", "https://m.youtube.com/*", "https://youtu.be/*"],
   "background": { "service_worker": "background.js", "type": "module" },
   "action": { "default_title": "开始视频口语练习" },
   "side_panel": { "default_path": "sidepanel.html" }

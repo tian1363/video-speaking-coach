@@ -40,29 +40,24 @@ function updateAiState() {
 }
 
 function defaultModel(provider) {
-  return provider === "openai" ? "gpt-4.1-mini" : provider === "bailian-coding" ? "qwen3.5-plus" : "qwen-plus";
+  return provider === "openai" ? "gpt-4.1-mini" : "qwen-plus";
 }
 
 function updateProviderUI(changeModel = false) {
   const provider = $("api-provider").value;
   const keyDestinations = {
     openai: { url: "https://platform.openai.com/api-keys", label: "前往 OpenAI 官网获取 API Key ↗", help: "将在新标签页打开 OpenAI 密钥管理页；创建后返回这里粘贴。" },
-    bailian: { url: "https://bailian.console.aliyun.com/cn-beijing/model/settings/api-key", label: "前往百炼官网获取 API Key ↗", help: "将在新标签页打开百炼密钥管理页；创建前确认地域，回来后选择相同地域。" },
-    "bailian-coding": { url: "https://help.aliyun.com/zh/model-studio/coding-plan", label: "查看百炼 Coding Plan 官方说明 ↗", help: "Coding Plan 官方限定编程工具使用；本插件请改选百炼普通 API Key。" }
+    bailian: { url: "https://bailian.console.aliyun.com/cn-beijing/model/settings/api-key", label: "前往百炼官网获取 API Key ↗", help: "将在新标签页打开百炼密钥管理页；创建前确认地域，回来后选择相同地域。" }
   };
   const destination = keyDestinations[provider];
   $("get-api-key").href = destination.url;
   $("get-api-key").textContent = destination.label;
   $("key-link-help").textContent = destination.help;
   $("api-region-row").hidden = provider === "openai";
-  for (const option of $("api-region").options) option.hidden = provider === "bailian-coding" && !["cn", "intl"].includes(option.value);
-  if (provider === "bailian-coding" && !["cn", "intl"].includes($("api-region").value)) $("api-region").value = "cn";
   if (changeModel) $("api-model").value = defaultModel(provider);
   $("api-provider-help").textContent = provider === "openai"
     ? "只接受 OpenAI API 平台创建的密钥。"
-    : provider === "bailian"
-      ? "适用 sk-ws- 或普通 sk- 开头的百炼按量付费密钥。地域必须与创建密钥时一致。"
-      : "Coding Plan 官方限定编程工具使用；本插件请改选百炼普通 API Key。";
+    : "适用 sk-ws- 或普通 sk- 开头的百炼按量付费密钥。地域必须与创建密钥时一致。";
   updateAiState();
 }
 
@@ -283,7 +278,7 @@ function coachError(response) {
       : "百炼未接受这把 API Key。请确认密钥类型、所属地域和套餐状态与设置一致。",
     "access-denied": `${providerName}拒绝了这次访问。请检查账号和模型调用权限。`,
     "wrong-provider": "这看起来是百炼套餐密钥，不能用于 OpenAI。请在“AI 教练设置”中切换服务商。",
-    "wrong-key-type": "百炼密钥类型与所选服务不匹配。sk-ws- 请选择普通 API Key；sk-sp- 请选择 Coding Plan。",
+    "wrong-key-type": "这把密钥不适用于百炼普通 API。请使用 sk-ws- 或普通 sk- 开头的按量付费密钥。",
     region: "请选择与百炼密钥一致的地域。",
     provider: "请选择正确的 AI 服务商。",
     "rate-limit": "AI 请求暂时太多，或账号额度已用完。请稍后再试。",
@@ -445,13 +440,16 @@ async function loadVideo(video) {
 
 async function init() {
   const { userApiKey, userModel, userProvider, userRegion } = await chrome.storage.session.get(["userApiKey", "userModel", "userProvider", "userRegion"]);
-  aiConfigured = Boolean(userApiKey);
-  savedProvider = userProvider || "openai";
+  const unsupportedProvider = userProvider && !["openai", "bailian"].includes(userProvider);
+  if (unsupportedProvider) await chrome.storage.session.remove(["userApiKey", "userModel", "userProvider", "userRegion"]);
+  aiConfigured = Boolean(userApiKey) && !unsupportedProvider;
+  savedProvider = unsupportedProvider ? "openai" : userProvider || "openai";
   savedRegion = userRegion || "cn";
   $("api-provider").value = savedProvider;
   $("api-region").value = savedRegion;
-  $("api-model").value = userModel || defaultModel(savedProvider);
+  $("api-model").value = unsupportedProvider ? defaultModel(savedProvider) : userModel || defaultModel(savedProvider);
   updateProviderUI();
+  if (unsupportedProvider) $("ai-settings-status").textContent = "此前选择的服务方式已停用。请重新选择 OpenAI 或百炼普通 API Key。";
   if (userApiKey?.startsWith("sk-ws-") && savedProvider === "openai") {
     $("api-provider").value = "bailian";
     updateProviderUI(true);
