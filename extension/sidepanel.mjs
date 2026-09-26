@@ -278,6 +278,7 @@ function coachError(response) {
     model: "这个模型暂时无法使用。请在“AI 教练设置”中检查模型名称。",
     network: "暂时连不上 AI 服务。请检查网络，稍后再试。",
     empty: "AI 没有返回建议，请重试一次。",
+    format: "AI 这次没有给出完整的重讲示例。原话已保存，请点击“获取 AI 建议”重试。",
     service: "AI 暂时无法回答，请稍后重试。"
   };
   return messages[response.error] || messages.service;

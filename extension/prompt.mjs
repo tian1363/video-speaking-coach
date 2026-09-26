@@ -20,13 +20,30 @@ export function buildPrompt(body) {
     const round = Number(body.round);
     if (![0, 1, 2].includes(round) || !transcripts[round].trim()) throw new Error("轮次或复述内容无效");
     const instruction = [
-      "这是第一轮。用户尝试只看自己记录的关键词，用英文把它们串成自己的复述。不要逐句纠错。指出已表达清楚的一点，提出一个最能帮助回忆或澄清内容的问题，再提示下一轮按主题、重点、例子重讲。",
-      "这是第二轮。指出一处最重要的逻辑缺口，给出简短结构线索，并邀请用户第三轮独立重讲；不要代写整篇。",
-      "这是第三轮。简要指出三轮可观察到的进步；给出一版保留用户原意、自然流畅的英文改述；解释最多两处关键表达改动；列出3到5个本次值得复习的词或短语；给出一条下次练习的具体目标。"
+      "这是第一轮。用户尝试只看自己记录的关键词，用英文把它们串成自己的复述。优先分析内容是否说清，不要逐句纠错。下一轮建议应引导用户按主题、重点、例子重讲。",
+      "这是第二轮。重点分析结构或内容中最影响理解的一处问题。下一轮建议应引导用户独立重讲，并补上自己的看法。",
+      "这是第三轮。比较三轮可观察到的变化，重点指出现在最值得改进的一处问题。下一次建议给出具体的小目标。"
     ][round];
-    return `视频：《${title}》\n关键词：${keywords}\n三轮原话：\n${history}\n${instruction}`;
+    return `视频：《${title}》\n关键词：${keywords}\n三轮原话：\n${history}\n${instruction}\n你没有取得视频字幕或口播内容，只能依据用户提供的标题、关键词和原话分析。不要声称核对了视频，不要补写未经用户提及的情节、数据、人物或观点。\n只输出一个 JSON 对象，不要 Markdown 代码块，字段严格为 problem、why、example、nextStep，值均为字符串：\nproblem：用中文分析这一轮最影响理解的一处具体问题，引用用户实际说过的内容。\nwhy：用中文解释这个问题为什么影响听者理解，以及重讲时该补什么。\nexample：给出一段完整、连贯的英文重讲示例，至少三句，包含开头、展开和收束；不能只给短语或单句。示例只能改写和组织用户已提供的信息；信息不足时用 From what I remember 或类似说法标明这是用户的理解，不可编造视频事实。示例是用户完成本轮表达后的参考，不要求逐字照读。\nnextStep：用中文给一个下一轮可以立即执行的练习动作，可带一个聚焦问题。`;
   }
   throw new Error("未知请求类型");
+}
+
+export function parseRoundFeedback(raw) {
+  const text = String(raw || "").trim();
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  let data;
+  try { data = JSON.parse(text.slice(start, end + 1)); } catch { throw new Error("反馈格式无效"); }
+  const fields = ["problem", "why", "example", "nextStep"];
+  if (!data || typeof data !== "object" || fields.some((key) => typeof data[key] !== "string" || !data[key].trim())) {
+    throw new Error("反馈缺少必要内容");
+  }
+  const example = data.example.trim();
+  const words = example.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g) || [];
+  const sentences = example.match(/[.!?](?:["']|$|\s)/g) || [];
+  if (words.length < 30 || sentences.length < 3) throw new Error("重讲示例不完整");
+  return `【现有问题】\n${data.problem.trim()}\n\n【为什么影响表达】\n${data.why.trim()}\n\n【完整重讲示例】\n${example}\n\n【下一轮怎么练】\n${data.nextStep.trim()}`;
 }
 
 export function extractText(response) {

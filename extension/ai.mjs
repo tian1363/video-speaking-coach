@@ -1,4 +1,4 @@
-import { buildPrompt, extractText } from "./prompt.mjs";
+import { buildPrompt, extractText, parseRoundFeedback } from "./prompt.mjs";
 
 export class CoachError extends Error {
   constructor(code) { super(code); this.code = code; }
@@ -64,9 +64,13 @@ export async function askCoach(payload, signal) {
     throw new CoachError("service");
   }
   const result = await response.json().catch(() => ({}));
-  const answer = config.parse(result);
+  let answer;
+  try { answer = config.parse(result); }
+  catch { throw new CoachError("format"); }
   if (!answer) throw new CoachError("empty");
-  return answer;
+  if (payload.mode !== "round") return answer;
+  try { return parseRoundFeedback(answer); }
+  catch { throw new CoachError("format"); }
 }
 
 export async function freeTranslate(term) {

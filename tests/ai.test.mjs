@@ -55,3 +55,12 @@ test("免密钥基础查词只发送查询词", async () => {
   try { assert.equal(await freeTranslate("screen"), "免费翻译（供参考）：screen → 屏幕"); }
   finally { globalThis.fetch = originalFetch; }
 });
+
+test("AI 轮次回复缺少完整示例时不标记为成功建议", async () => {
+  globalThis.chrome = { storage: { session: { get: async () => ({ userApiKey: "test-key", userModel: "gpt-4.1-mini" }) } } };
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async () => ({ ok: true, json: async () => ({ output: [{ type: "message", content: [{ type: "output_text", text: JSON.stringify({ problem: "内容太少", why: "听者不清楚", example: "It is a habit.", nextStep: "重讲" }) }] }] }) });
+  try {
+    await assert.rejects(askCoach({ mode: "round", round: 0, videoTitle: "Habit", keywords: "daily", transcripts: ["It is a habit."] }), { code: "format" });
+  } finally { globalThis.fetch = originalFetch; delete globalThis.chrome; }
+});

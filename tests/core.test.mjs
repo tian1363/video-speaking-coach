@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { createSession, nextSession, parseYouTubeVideo, sessionMarkdown } from "../extension/core.mjs";
 import { buildPrompt, extractText } from "../server/index.mjs";
+import { parseRoundFeedback } from "../extension/prompt.mjs";
 
 test("仅关联有效 YouTube 视频，不把普通页面当视频", () => {
   const video = parseYouTubeVideo("https://www.youtube.com/watch?v=dQw4w9WgXcQ&t=12", "Test - YouTube");
@@ -45,4 +46,16 @@ test("教练提示词只使用已给素材，输出解析读取消息文字", ()
   assert.match(prompt, /不要逐句纠错/);
   assert.throws(() => buildPrompt({ mode: "round", round: 2, transcripts: [] }));
   assert.equal(extractText({ output: [{ type: "message", content: [{ type: "output_text", text: "Try again." }] }] }), "Try again.");
+});
+
+test("每轮反馈需要完整示例，并保留固定四段结构", () => {
+  const feedback = parseRoundFeedback(JSON.stringify({
+    problem: "只说了主题，没有解释原因。",
+    why: "听者不知道这个习惯为什么有用。",
+    example: "From what I remember, the video is about building a small daily learning habit. The speaker suggests starting with one simple action and repeating it at the same time each day. I would try a short English retelling after breakfast because it feels easy to remember and repeat.",
+    nextStep: "下一轮先说主题，再补一个具体例子。"
+  }));
+  assert.match(feedback, /【现有问题】[\s\S]*【为什么影响表达】[\s\S]*【完整重讲示例】[\s\S]*【下一轮怎么练】/);
+  assert.match(feedback, /From what I remember/);
+  assert.throws(() => parseRoundFeedback(JSON.stringify({ problem: "缺少原因", why: "听不明白", example: "It is a habit.", nextStep: "重讲" })), /重讲示例不完整/);
 });
